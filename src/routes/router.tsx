@@ -6,8 +6,7 @@ import Generacion from '../views/Generacion';
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/registro-entrada", element: <Registro tipo="Entrada" /> },
-  { path: "/registro-salida", element: <Registro tipo="Salida" /> },
+  { path: "/registro-entrada", element: <Registro /> },
   { path: "/inspeccion", element: <Inspeccion /> },
   { path: "/reporte", element: <Generacion /> }
 ]);
