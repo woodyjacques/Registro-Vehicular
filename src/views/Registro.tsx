@@ -20,12 +20,12 @@ function Registro() {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/register', formData, {
+      const response = await axios.post('http://localhost:4000/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      alert(response.data);
+      alert(response.data.message);
     } catch (error) {
       console.error(error);
       alert('Error al registrar los datos');
