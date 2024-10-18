@@ -12,7 +12,7 @@ function Inspeccion() {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/get-data');
+        const response = await axios.get('https://registro-vehicular-bac.vercel.app/get-data');
         setDatos(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
@@ -113,7 +113,6 @@ function Inspeccion() {
         </table>
       </div>
 
-      {/* Modal para las observaciones */}
       {filaSeleccionada && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded shadow-md w-full max-w-md relative h-3/4 flex flex-col">
@@ -157,7 +156,6 @@ function Inspeccion() {
                   </div>
                 ))}
               </div>
-              {/* Botones siempre visibles */}
               <div className="flex-shrink-0">
                 <div className="flex justify-between space-x-4">
                   <button
