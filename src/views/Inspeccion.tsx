@@ -12,7 +12,7 @@ function Inspeccion() {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await axios.get('https://registro-vehicular-bac.vercel.app/get-data');
+        const response = await axios.get('http://localhost:4000/get-data');
         setDatos(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
@@ -43,6 +43,10 @@ function Inspeccion() {
   };
 
   const agregarObservacion = () => {
+    if (observacionesList.length >= 2) {
+      alert('Solo puedes agregar un máximo de dos observaciones.');
+      return;
+    }
     setObservacionesList([...observacionesList, { observacion: '', documento: null }]);
   };
 
@@ -51,10 +55,38 @@ function Inspeccion() {
     setObservacionesList(newObservacionesList);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Datos de la fila seleccionada:', filaSeleccionada);
-    console.log('Lista de observaciones y documentos:', observacionesList);
+
+    if (!filaSeleccionada) return;
+    const formData = new FormData();
+
+    formData.append('sucursal', filaSeleccionada[0]);
+    formData.append('placa', filaSeleccionada[1]);
+    formData.append('conductor', filaSeleccionada[2]);
+    formData.append('fechaRegistro', filaSeleccionada[3]);
+    formData.append('identificador', filaSeleccionada[4]);
+
+    observacionesList.forEach((observacionItem, index) => {
+      formData.append(`observaciones[${index}]`, observacionItem.observacion);
+      if (observacionItem.documento) {
+        formData.append('documentos', observacionItem.documento);
+      }
+    });
+
+    try {
+      const response = await axios.post('http://localhost:4000/inspeccion', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      alert(response.data.message);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error al enviar los datos:', error);
+      alert('Hubo un error al enviar los datos.');
+    }
 
     setFilaSeleccionada(null);
     setObservacionesList([{ observacion: '', documento: null }]);
@@ -94,7 +126,9 @@ function Inspeccion() {
                 <td className="py-2 px-4 border-b">{fila[3]}</td>
                 <td className="py-2 px-4 border-b">{fila[4]}</td>
                 <td className="py-2 px-4 border-b">
-                  <a href={fila[5]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Ver archivo</a>
+                  {fila[5] ? (
+                    <a href={fila[5]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Ver archivo</a>
+                  ) : 'No disponible'}
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
@@ -124,7 +158,6 @@ function Inspeccion() {
             </button>
             <h2 className="text-xl font-bold mb-4">Observaciones para {filaSeleccionada[2]} ({filaSeleccionada[1]})</h2>
             <form onSubmit={handleSubmit} className="flex flex-col h-full">
-              {/* Contenedor scrollable para observaciones */}
               <div className="flex-grow overflow-y-auto mb-4">
                 {observacionesList.map((item, index) => (
                   <div key={index} className="mb-4">
@@ -156,7 +189,7 @@ function Inspeccion() {
                   </div>
                 ))}
               </div>
-              <div className="flex-shrink-0">
+              <div className="sticky bottom-0 bg-white pt-4">
                 <div className="flex justify-between space-x-4">
                   <button
                     type="button"

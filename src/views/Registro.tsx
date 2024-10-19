@@ -47,7 +47,7 @@ function Registro() {
     }
 
     try {
-      const response = await axios.post('https://registro-vehicular-bac.vercel.app/register', formData, {
+      const response = await axios.post('http://localhost:4000/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
