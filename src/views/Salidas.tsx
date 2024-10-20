@@ -14,7 +14,7 @@ function Salidas() {
     useEffect(() => {
         const obtenerDatos = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/get-data'); 
+                const response = await axios.get('https://registro-vehicular-bac.vercel.app/get-data'); 
                 setDatos(response.data); 
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
