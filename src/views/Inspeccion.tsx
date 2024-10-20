@@ -8,6 +8,7 @@ function Inspeccion() {
 
   const [datos, setDatos] = useState([]);
   const [filaSeleccionada, setFilaSeleccionada] = useState<any | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const obtenerDatos = async () => {
@@ -23,13 +24,13 @@ function Inspeccion() {
   }, []);
 
   const handleButtonClick = (fila: any) => {
-    if (fila[6] === 'Inspeccionar') {
+    if (fila[6] === 'Inspeccionar' || fila[6] == 'Seguimiento') {
       setFilaSeleccionada(fila);
     }
   };
 
   const handleObservacionChange = (index: number, e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
 
     if (e.target instanceof HTMLInputElement && e.target.type === 'file' && e.target.files) {
       const newObservacionesList = [...observacionesList];
@@ -57,8 +58,10 @@ function Inspeccion() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     if (!filaSeleccionada) return;
+
     const formData = new FormData();
 
     formData.append('sucursal', filaSeleccionada[0]);
@@ -66,7 +69,9 @@ function Inspeccion() {
     formData.append('conductor', filaSeleccionada[2]);
     formData.append('fechaRegistro', filaSeleccionada[3]);
     formData.append('identificador', filaSeleccionada[4]);
-
+    if (filaSeleccionada[5]) {
+      formData.append('licencias', filaSeleccionada[5]);
+    }
     observacionesList.forEach((observacionItem, index) => {
       formData.append(`observaciones[${index}]`, observacionItem.observacion);
       if (observacionItem.documento) {
@@ -75,7 +80,7 @@ function Inspeccion() {
     });
 
     try {
-      const response = await axios.post('http://localhost:4000/inspeccion', formData, {
+      const response = await axios.post('https://registro-vehicular-bac.vercel.app/inspeccion', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -86,6 +91,8 @@ function Inspeccion() {
     } catch (error) {
       console.error('Error al enviar los datos:', error);
       alert('Hubo un error al enviar los datos.');
+    } finally {
+      setIsSubmitting(false);
     }
 
     setFilaSeleccionada(null);
@@ -108,13 +115,12 @@ function Inspeccion() {
               <th className="py-2 px-4 border-b text-left">Sucursal</th>
               <th className="py-2 px-4 border-b text-left">Placa</th>
               <th className="py-2 px-4 border-b text-left">Conductor</th>
-              <th className="py-2 px-4 border-b text-left">Fecha de Registro</th>
+              <th className="py-2 px-4 border-b text-left">Registro</th>
               <th className="py-2 px-4 border-b text-left">Identificador</th>
               <th className="py-2 px-4 border-b text-left">Licencias</th>
               <th className="py-2 px-4 border-b text-left">Estado</th>
               <th className="py-2 px-4 border-b text-left">Reportes</th>
               <th className="py-2 px-4 border-b text-left">Salida</th>
-              <th className="py-2 px-4 border-b text-left">Fecha Salida</th>
             </tr>
           </thead>
           <tbody>
@@ -132,21 +138,35 @@ function Inspeccion() {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className={`${fila[6] === 'Completado' ? 'bg-green-500 hover:bg-green-700' 
+                      : fila[6] === 'Seguimiento' ? 'bg-yellow-500 hover:bg-yellow-700' 
+                        : 'bg-blue-500 hover:bg-blue-700' 
+                      } text-white font-bold py-2 px-4 rounded`}
                     onClick={() => handleButtonClick(fila)}
                   >
                     {fila[6]}
                   </button>
                 </td>
-                <td className="py-2 px-4 border-b">{fila[7]}</td>
+                <td className="py-2 px-4 border-b">
+                  {typeof fila[7] === 'string' && /^https?:\/\/[^\s]+$/.test(fila[7]) ? (
+                    <a href={fila[7]} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                      Ver enlace
+                    </a>
+                  ) : (
+                    'No disponible'
+                  )}
+                </td>
                 <td className="py-2 px-4 border-b">{fila[8]}</td>
-                <td className="py-2 px-4 border-b">{fila[9]}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
+      <a href="/">
+        <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+          Inicio
+        </button>
+      </a>
       {filaSeleccionada && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded shadow-md w-full max-w-md relative h-3/4 flex flex-col">
@@ -198,7 +218,7 @@ function Inspeccion() {
                   >
                     Agregar
                   </button>
-                  <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">Guardar</button>
+                  <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded" disabled={isSubmitting} >{isSubmitting ? 'Guardando...' : 'Guardar'}</button>
                 </div>
               </div>
             </form>

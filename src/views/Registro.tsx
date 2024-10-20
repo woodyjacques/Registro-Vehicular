@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  
+import { useNavigate } from 'react-router-dom';
 
 function Registro() {
   const [placa, setPlaca] = useState('');
@@ -10,7 +10,7 @@ function Registro() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setPlaca('');
@@ -29,9 +29,9 @@ function Registro() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);  
+    setIsSubmitting(true);
 
-    const fechaRegistro = getCurrentDate(); 
+    const fechaRegistro = getCurrentDate();
 
     const uniqueIdentifier = `${sucursal}/${placa}/${conductor}/${fechaRegistro}`;
 
@@ -39,7 +39,7 @@ function Registro() {
     formData.append('placa', placa);
     formData.append('conductor', conductor);
     formData.append('sucursal', sucursal);
-    formData.append('fechaRegistro', fechaRegistro); 
+    formData.append('fechaRegistro', fechaRegistro);
     formData.append('uniqueIdentifier', uniqueIdentifier);
 
     if (documento) {
@@ -47,20 +47,20 @@ function Registro() {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/register', formData, {
+      const response = await axios.post('https://registro-vehicular-bac.vercel.app/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      alert(response.data.message);  
-      navigate('/inspeccion');  
+      alert(response.data.message);
+      navigate('/inspeccion');
     } catch (error) {
       console.error(error);
       alert('Error al registrar los datos');
-      resetForm();  
+      resetForm();
     } finally {
-      setIsSubmitting(false);  
+      setIsSubmitting(false);
     }
   };
 
@@ -135,9 +135,16 @@ function Registro() {
           />
         </label>
 
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={isSubmitting}>
-          {isSubmitting ? 'Guardando...' : 'Guardar'}
-        </button>
+        <div className="flex justify-between">
+          <a href="/">
+            <button type="button" className="bg-red-500 text-white px-4 py-2 rounded">
+              Cancelar
+            </button>
+          </a>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={isSubmitting}>
+            {isSubmitting ? 'Guardando...' : 'Guardar'}
+          </button>
+        </div>
       </form>
     </div>
   );

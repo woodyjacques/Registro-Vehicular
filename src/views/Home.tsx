@@ -25,7 +25,7 @@ function Home() {
         <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
           <h2 className="text-xl font-semibold text-blue-600 mb-2">Registrar Salida</h2>
           <p className="text-gray-700 mb-4">Completa el proceso de salida y actualiza el registro del vehículo.</p>
-          <Link to="/registro-salida" className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300">
+          <Link to="/salidas" className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300">
             Ir a Registro de Salida
           </Link>
         </div>
@@ -35,3 +35,6 @@ function Home() {
 }
 
 export default Home;
+
+
+                           
