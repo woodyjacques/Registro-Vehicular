@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from './url';
 
 function Registro() {
   const [placa, setPlaca] = useState('');
@@ -47,7 +48,7 @@ function Registro() {
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/register', formData, {
+      const response = await axios.post(`${BASE_URL}/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from './url';
 
 function Salidas() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,7 +15,7 @@ function Salidas() {
     useEffect(() => {
         const obtenerDatos = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/get-data'); 
+                const response = await axios.get(`${BASE_URL}/get-data`); 
                 setDatos(response.data); 
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
@@ -34,7 +35,7 @@ function Salidas() {
         };
 
         try {
-            await axios.post('http://localhost:4000/salidas', data);
+            await axios.post(`${BASE_URL}/salidas`, data);
             alert('Datos enviados correctamente');
 
             navigate('/inspeccion');

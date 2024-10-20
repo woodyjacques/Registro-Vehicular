@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../views/url';
 
 function Inspeccion() {
   const [observacionesList, setObservacionesList] = useState<{ observacion: string; documento: File | null }[]>([
@@ -13,7 +14,7 @@ function Inspeccion() {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/get-data');
+        const response = await axios.get(`${BASE_URL}/get-data`);
         setDatos(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
@@ -80,7 +81,7 @@ function Inspeccion() {
     });
 
     try {
-      const response = await axios.post('http://localhost:4000/inspeccion', formData, {
+      const response = await axios.post(`${BASE_URL}/inspeccion`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
