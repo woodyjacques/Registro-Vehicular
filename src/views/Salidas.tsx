@@ -14,7 +14,7 @@ function Salidas() {
     useEffect(() => {
         const obtenerDatos = async () => {
             try {
-                const response = await axios.get('https://registro-vehicular-bac.vercel.app/get-data'); 
+                const response = await axios.get('http://localhost:4000/get-data'); 
                 setDatos(response.data); 
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
@@ -34,7 +34,7 @@ function Salidas() {
         };
 
         try {
-            await axios.post('https://registro-vehicular-bac.vercel.app/salidas', data);
+            await axios.post('http://localhost:4000/salidas', data);
             alert('Datos enviados correctamente');
 
             navigate('/inspeccion');

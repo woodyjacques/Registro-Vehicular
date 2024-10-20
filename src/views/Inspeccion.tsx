@@ -13,7 +13,7 @@ function Inspeccion() {
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        const response = await axios.get('https://registro-vehicular-bac.vercel.app/get-data');
+        const response = await axios.get('http://localhost:4000/get-data');
         setDatos(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
@@ -80,7 +80,7 @@ function Inspeccion() {
     });
 
     try {
-      const response = await axios.post('https://registro-vehicular-bac.vercel.app/inspeccion', formData, {
+      const response = await axios.post('http://localhost:4000/inspeccion', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
