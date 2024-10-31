@@ -88,16 +88,15 @@ function Registro() {
       { id: 8, nombre: 'Registro único vehicular', disponibleSi: false, disponibleNo: false },
     ]
   );
-  const [danosCarroceria, setDanosCarroceria] = useState(
-    Array(10).fill({ id: 0, rayones: false, golpes: false, quebrado: false, faltante: false, observacion: '' }).map((_, index) => ({
-      id: index + 1,
-      rayones: false,
-      golpes: false,
-      quebrado: false,
-      faltante: false,
-      observacion: '',
-    }))
-  );
+
+  const [danosCarroceria, setDanosCarroceria] = useState([
+    { id: 1, vista: 'Frontal', rayones: false, golpes: false, quebrado: false, faltante: false },
+    { id: 2, vista: 'Posterior', rayones: false, golpes: false, quebrado: false, faltante: false },
+    { id: 3, vista: 'Lateral Izquierda', rayones: false, golpes: false, quebrado: false, faltante: false },
+    { id: 4, vista: 'Lateral Derecha', rayones: false, golpes: false, quebrado: false, faltante: false },
+    { id: 5, vista: 'Otra Observación', rayones: false, golpes: false, quebrado: false, faltante: false },
+    { id: 6, vista: 'Superior', rayones: false, golpes: false, quebrado: false, faltante: false },
+  ]);
 
   const [step, setStep] = useState(1);
 
@@ -247,7 +246,7 @@ function Registro() {
       } catch (error) {
         console.error(error);
         alert('Error al registrar los datos');
-        resetForm();
+        // resetForm();
       } finally {
         setIsSubmitting(false);
       }
@@ -387,12 +386,8 @@ function Registro() {
     return true;
   };
 
-  const [danosCarroceriaParte1, setDanosCarroceriaParte1] = useState(
-    Array(5).fill({ rayones: false, golpes: false, quebrado: false, faltante: false })
-  );
-
   const validateStep10 = () => {
-    const isValid = danosCarroceriaParte1.every((danos) =>
+    const isValid = danosCarroceria.every((danos) =>
       (danos.rayones || danos.golpes || danos.quebrado || danos.faltante)
     );
 
@@ -1102,19 +1097,17 @@ function Registro() {
               <img src={trasera} alt="Vista Posterior" className="w-1/3" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {danosCarroceriaParte1.map((danos, index) => (
+              {danosCarroceria.map((danos, index) => (
                 <div key={index} className="mb-4">
-                  <h3 className="font-bold">
-                    Vista {index === 0 ? "Frontal" : index === 1 ? "Posterior" : index === 2 ? "Lateral Izquierda" : index === 3 ? "Lateral Derecha" : "Otra Observación"}
-                  </h3>
+                  <h3 className="font-bold">Vista {danos.vista}</h3>
                   <label className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
                       checked={danos.rayones}
                       onChange={(e) => {
-                        const updatedDanos = [...danosCarroceriaParte1];
+                        const updatedDanos = [...danosCarroceria];
                         updatedDanos[index] = { ...updatedDanos[index], rayones: e.target.checked };
-                        setDanosCarroceriaParte1(updatedDanos);
+                        setDanosCarroceria(updatedDanos);
                       }}
                     />
                     Rayones (X)
@@ -1124,9 +1117,9 @@ function Registro() {
                       type="checkbox"
                       checked={danos.golpes}
                       onChange={(e) => {
-                        const updatedDanos = [...danosCarroceriaParte1];
+                        const updatedDanos = [...danosCarroceria];
                         updatedDanos[index] = { ...updatedDanos[index], golpes: e.target.checked };
-                        setDanosCarroceriaParte1(updatedDanos);
+                        setDanosCarroceria(updatedDanos);
                       }}
                     />
                     Golpe (/)
@@ -1136,9 +1129,9 @@ function Registro() {
                       type="checkbox"
                       checked={danos.quebrado}
                       onChange={(e) => {
-                        const updatedDanos = [...danosCarroceriaParte1];
+                        const updatedDanos = [...danosCarroceria];
                         updatedDanos[index] = { ...updatedDanos[index], quebrado: e.target.checked };
-                        setDanosCarroceriaParte1(updatedDanos);
+                        setDanosCarroceria(updatedDanos);
                       }}
                     />
                     Quebrado (O)
@@ -1148,9 +1141,9 @@ function Registro() {
                       type="checkbox"
                       checked={danos.faltante}
                       onChange={(e) => {
-                        const updatedDanos = [...danosCarroceriaParte1];
+                        const updatedDanos = [...danosCarroceria];
                         updatedDanos[index] = { ...updatedDanos[index], faltante: e.target.checked };
-                        setDanosCarroceriaParte1(updatedDanos);
+                        setDanosCarroceria(updatedDanos);
                       }}
                     />
                     Faltante (*)
@@ -1158,6 +1151,7 @@ function Registro() {
                 </div>
               ))}
             </div>
+
             <div className="flex justify-between">
               <button
                 type="button"
