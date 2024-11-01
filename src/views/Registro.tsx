@@ -7,6 +7,7 @@ import frontal from "../assets/Frontal.png";
 import trasera from "../assets/Trasera.png";
 
 function Registro() {
+
   const [placa, setPlaca] = useState('');
   const [conductor, setConductor] = useState('');
   const [sucursal, setSucursal] = useState('');
@@ -26,6 +27,7 @@ function Registro() {
       observacion: '',
     }))
   );
+
   const [llantasParte2, setLlantasParte2] = useState(
     Array(5).fill({ id: 0, fp: false, pe: false, pa: false, desgaste: false, observacion: '' }).map((_, index) => ({
       id: index + 6,
@@ -36,6 +38,7 @@ function Registro() {
       observacion: '',
     }))
   );
+
   const [fluidos, setFluidos] = useState(
     [
       { id: 1, nombre: 'Niveles de aceite de motor', requiere: false, lleno: false, observacion: '' },
@@ -44,6 +47,7 @@ function Registro() {
       { id: 4, nombre: 'Niveles de líquido de radiador (Coolant)', requiere: false, lleno: false, observacion: '' },
     ]
   );
+
   const [parametrosVisuales, setParametrosVisuales] = useState(
     [
       { id: 1, nombre: 'Inspección de radiador y aspa', si: false, no: false, observacion: '' },
@@ -52,6 +56,7 @@ function Registro() {
       { id: 4, nombre: 'Comprobación de fugas (Superficies de Acoplamiento)', si: false, no: false, observacion: '' },
     ]
   );
+
   const [luces, setLuces] = useState(
     [
       { id: 1, nombre: 'Medias', funcionaSi: false, funcionaNo: false, observacion: '' },
@@ -64,6 +69,7 @@ function Registro() {
       { id: 8, nombre: 'Escolta', funcionaSi: false, funcionaNo: false, observacion: '' },
     ]
   );
+
   const [insumos, setInsumos] = useState(
     [
       { id: 1, nombre: 'Primeros auxilios', disponibleSi: false, disponibleNo: false },
@@ -76,6 +82,7 @@ function Registro() {
       { id: 8, nombre: 'Carretilla, según equipo', disponibleSi: false, disponibleNo: false },
     ]
   );
+
   const [documentacion, setDocumentacion] = useState(
     [
       { id: 1, nombre: 'Permiso bimensual de CBP', disponibleSi: false, disponibleNo: false },
@@ -186,6 +193,15 @@ function Registro() {
         { id: 8, nombre: 'Registro único vehicular', disponibleSi: false, disponibleNo: false },
       ]
     );
+    setDanosCarroceria([
+      { id: 1, vista: 'Frontal', rayones: false, golpes: false, quebrado: false, faltante: false },
+      { id: 2, vista: 'Posterior', rayones: false, golpes: false, quebrado: false, faltante: false },
+      { id: 3, vista: 'Lateral Izquierda', rayones: false, golpes: false, quebrado: false, faltante: false },
+      { id: 4, vista: 'Lateral Derecha', rayones: false, golpes: false, quebrado: false, faltante: false },
+      { id: 5, vista: 'Otra Observación', rayones: false, golpes: false, quebrado: false, faltante: false },
+      { id: 6, vista: 'Superior', rayones: false, golpes: false, quebrado: false, faltante: false },
+    ]);
+
     setStep(1);
   };
 
@@ -240,13 +256,21 @@ function Registro() {
           }
         });
 
-        alert(response.data.message);
-        console.log(formData, "Datos de ingreso");
-        navigate('/');
+        if (response.data.message) {
+          
+          const dataToStore: Record<string, string> = {};
+          formData.forEach((value, key) => {
+            dataToStore[key] = value.toString(); 
+          });
+
+          localStorage.setItem('userData', JSON.stringify(dataToStore));
+          alert(response.data.message);
+          resetForm();
+        }
       } catch (error) {
         console.error(error);
         alert('Error al registrar los datos');
-        // resetForm();
+        resetForm();
       } finally {
         setIsSubmitting(false);
       }
