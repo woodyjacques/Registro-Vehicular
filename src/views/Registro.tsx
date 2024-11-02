@@ -111,6 +111,13 @@ function Registro() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const datos = localStorage.getItem('userData');
+    if (datos) {
+      navigate("/home");
+    }
+  }, []);
+
   const resetForm = () => {
     setPlaca('');
     setConductor('');
@@ -265,7 +272,7 @@ function Registro() {
 
           localStorage.setItem('userData', JSON.stringify(dataToStore));
           alert(response.data.message);
-          resetForm();
+          navigate('/home');
         }
       } catch (error) {
         console.error(error);
