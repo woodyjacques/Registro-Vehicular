@@ -124,6 +124,7 @@ function Inspeccion() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-center">R04-PT-19 REVICIÓN DE VEHÍCULOS</h1>
+      <p className="text-center text-lg font-semibold mb-4">Ingreso a la planta</p>
       <form onSubmit={handleSubmit} className="w-full max-w-3xl bg-white p-6 rounded shadow-md">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {formData.revisiones.map((item, index) => (
