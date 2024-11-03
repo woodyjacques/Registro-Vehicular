@@ -12,8 +12,11 @@
   "dependencies": {
     "autoprefixer": "^10.4.18",
     "axios": "^1.7.7",
+    "docx": "^9.0.2",
     "dotenv": "^16.4.5",
+    "emailjs-com": "^3.2.0",
     "env": "^0.0.2",
+    "file-saver": "^2.0.5",
     "jspdf": "^2.5.2",
     "postcss": "^8.4.37",
     "react": "^18.3.1",
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^22.7.6",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",

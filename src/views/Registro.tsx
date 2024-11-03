@@ -264,10 +264,10 @@ function Registro() {
         });
 
         if (response.data.message) {
-          
+
           const dataToStore: Record<string, string> = {};
           formData.forEach((value, key) => {
-            dataToStore[key] = value.toString(); 
+            dataToStore[key] = value.toString();
           });
 
           localStorage.setItem('userData', JSON.stringify(dataToStore));
@@ -1203,6 +1203,7 @@ function Registro() {
         )}
 
       </form>
+
     </div>
   );
 }
