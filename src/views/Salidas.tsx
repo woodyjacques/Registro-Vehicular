@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from './url';
+import { BASE_URL } from '../validation/url';
 
 interface Registro {
     Conductor: string;

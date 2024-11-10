@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 interface ParametroVisual {
     id: number;
     nombre: string;
@@ -14,17 +16,19 @@ interface StepSeisProps {
 }
 
 function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousStep, handleNextStep }: StepSeisProps) {
+    const [observacionGeneral, setObservacionGeneral] = useState('');
 
     const validateStep6 = () => {
-        const isInvalid = parametrosVisuales.some((parametro) => {
-            const noOptionSelected = !parametro.si && !parametro.no;
-            const observationRequired = parametro.no && !parametro.observacion.trim();
+        const hasNoOption = parametrosVisuales.some((parametro) => parametro.no);
+        const allOptionsSelected = parametrosVisuales.every((parametro) => parametro.si || parametro.no);
 
-            return noOptionSelected || observationRequired;
-        });
+        if (!allOptionsSelected) {
+            alert('Debe seleccionar al menos una opción ("SI" o "NO") para cada parámetro.');
+            return false;
+        }
 
-        if (isInvalid) {
-            alert('Debe seleccionar al menos una opción ("SI" o "NO") para cada parámetro y agregar una observación si marca "NO".');
+        if (hasNoOption && !observacionGeneral.trim()) {
+            alert('Debe agregar una observación general si alguno de los parámetros está marcado como "NO".');
             return false;
         }
 
@@ -35,7 +39,7 @@ function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousSte
         <div>
             <h2 className="text-xl font-bold mb-4">Parámetros Visuales del Motor</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {parametrosVisuales.map((parametro) => (
+                {parametrosVisuales.map((parametro, index) => (
                     <div key={parametro.id} className="mb-4">
                         <h3 className="font-bold">{parametro.nombre}</h3>
                         <label className="inline-flex items-center mr-4">
@@ -44,7 +48,7 @@ function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousSte
                                 checked={parametro.si}
                                 onChange={(e) => {
                                     const updatedParametros = [...parametrosVisuales];
-                                    updatedParametros[parametro.id - 1] = { ...updatedParametros[parametro.id - 1], si: e.target.checked, no: !e.target.checked };
+                                    updatedParametros[index] = { ...parametro, si: e.target.checked, no: !e.target.checked };
                                     setParametrosVisuales(updatedParametros);
                                 }}
                             />
@@ -56,35 +60,33 @@ function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousSte
                                 checked={parametro.no}
                                 onChange={(e) => {
                                     const updatedParametros = [...parametrosVisuales];
-                                    updatedParametros[parametro.id - 1] = { ...updatedParametros[parametro.id - 1], no: e.target.checked, si: !e.target.checked };
+                                    updatedParametros[index] = { ...parametro, no: e.target.checked, si: !e.target.checked };
                                     setParametrosVisuales(updatedParametros);
                                 }}
                             />
                             Funciona Correctamente (NO)
                         </label>
-
-                        {parametro.no && (
-                            <div className="mt-2">
-                                <label className="block font-bold">Observación:</label>
-                                <textarea
-                                    value={parametro.observacion}
-                                    onChange={(e) => {
-                                        const updatedParametros = [...parametrosVisuales];
-                                        updatedParametros[parametro.id - 1] = { ...updatedParametros[parametro.id - 1], observacion: e.target.value };
-                                        setParametrosVisuales(updatedParametros);
-                                    }}
-                                    className={`mt-1 p-2 border rounded w-full ${!parametro.observacion.trim() ? 'border-red-500' : ''}`}
-                                    placeholder={!parametro.observacion ? 'Debe ingresar una observación si selecciona NO' : ''}
-                                />
-                                {!parametro.observacion.trim() && (
-                                    <p className="text-red-500 mt-1">Es necesario ingresar una observación si marca "NO".</p>
-                                )}
-                            </div>
-                        )}
                     </div>
                 ))}
             </div>
-            <div className="flex justify-between">
+
+            {/* Mostrar Observación General si algún parámetro tiene "NO" seleccionado */}
+            {parametrosVisuales.some((parametro) => parametro.no) && (
+                <div className="mt-4">
+                    <label className="block font-bold">Observación General:</label>
+                    <textarea
+                        value={observacionGeneral}
+                        onChange={(e) => setObservacionGeneral(e.target.value)}
+                        className={`mt-1 p-2 border rounded w-full ${!observacionGeneral.trim() ? 'border-red-500' : ''}`}
+                        placeholder="Debe ingresar una observación si algún parámetro está en 'NO'"
+                    />
+                    {!observacionGeneral.trim() && (
+                        <p className="text-red-500 mt-1">Es necesario ingresar una observación si marca "NO" en algún parámetro.</p>
+                    )}
+                </div>
+            )}
+
+            <div className="flex justify-between mt-4">
                 <button
                     type="button"
                     className="bg-gray-500 text-white px-4 py-2 rounded"
@@ -106,6 +108,6 @@ function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousSte
             </div>
         </div>
     );
-};
+}
 
 export default StepSeis;

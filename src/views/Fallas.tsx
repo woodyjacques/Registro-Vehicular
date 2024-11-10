@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
-import { BASE_URL } from './url';
+import { BASE_URL } from '../validation/url';
 import { useNavigate } from 'react-router-dom';
 
 function Fallas() {

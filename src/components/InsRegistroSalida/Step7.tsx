@@ -1,4 +1,3 @@
-// StepSiete.tsx
 import React from 'react';
 
 interface Luz {
@@ -6,7 +5,6 @@ interface Luz {
     nombre: string;
     funcionaSi: boolean;
     funcionaNo: boolean;
-    observacion: string;
 }
 
 interface StepSieteProps {
@@ -19,15 +17,10 @@ interface StepSieteProps {
 function StepSiete({ luces, setLuces, handlePreviousStep, handleNextStep }: StepSieteProps) {
 
     const validateStep7 = () => {
-        const isInvalid = luces.some((luz) => {
-            const noOptionSelected = !luz.funcionaSi && !luz.funcionaNo;
-            const observationRequired = luz.funcionaNo && !luz.observacion.trim();
-
-            return noOptionSelected || observationRequired;
-        });
+        const isInvalid = luces.some((luz) => !luz.funcionaSi && !luz.funcionaNo);
 
         if (isInvalid) {
-            alert('Debe seleccionar al menos una opción ("Funciona (SI)" o "Funciona (NO)") para cada luz y agregar una observación si marca "Funciona (NO)".');
+            alert('Debe seleccionar al menos una opción ("Funciona (SI)" o "Funciona (NO)") para cada luz.');
             return false;
         }
 
@@ -65,25 +58,6 @@ function StepSiete({ luces, setLuces, handlePreviousStep, handleNextStep }: Step
                             />
                             Funciona (NO)
                         </label>
-
-                        {luz.funcionaNo && (
-                            <div className="mt-2">
-                                <label className="block font-bold">Observación:</label>
-                                <textarea
-                                    value={luz.observacion}
-                                    onChange={(e) => {
-                                        const updatedLuces = [...luces];
-                                        updatedLuces[luz.id - 1] = { ...updatedLuces[luz.id - 1], observacion: e.target.value };
-                                        setLuces(updatedLuces);
-                                    }}
-                                    className={`mt-1 p-2 border rounded w-full ${!luz.observacion.trim() ? 'border-red-500' : ''}`}
-                                    placeholder={!luz.observacion ? 'Debe ingresar una observación si selecciona NO' : ''}
-                                />
-                                {!luz.observacion.trim() && (
-                                    <p className="text-red-500 mt-1">Es necesario ingresar una observación si marca "Funciona (NO)".</p>
-                                )}
-                            </div>
-                        )}
                     </div>
                 ))}
             </div>
@@ -109,6 +83,6 @@ function StepSiete({ luces, setLuces, handlePreviousStep, handleNextStep }: Step
             </div>
         </div>
     );
-};
+}
 
 export default StepSiete;

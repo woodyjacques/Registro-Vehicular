@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL } from './url';
+import { BASE_URL } from '../validation/url';
 
 type Revision = {
   descripcion: string;

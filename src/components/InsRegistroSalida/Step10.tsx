@@ -1,4 +1,3 @@
-// StepDiez.tsx
 import React from 'react';
 
 interface DanosCarroceria {
@@ -23,7 +22,24 @@ const StepDiez: React.FC<StepDiezProps> = ({
     setDanosCarroceria,
     handlePreviousStep,
     handleSubmit,
-    isSubmitting,}) => {
+    isSubmitting
+}) => {
+
+    const handleRadioChange = (index: number, option: string) => {
+        const updatedDanos = danosCarroceria.map((danos, i) => {
+            if (i === index) {
+                return {
+                    ...danos,
+                    rayones: option === 'rayones',
+                    golpes: option === 'golpes',
+                    quebrado: option === 'quebrado',
+                    faltante: option === 'faltante'
+                };
+            }
+            return danos;
+        });
+        setDanosCarroceria(updatedDanos);
+    };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -32,51 +48,43 @@ const StepDiez: React.FC<StepDiezProps> = ({
                 {danosCarroceria.map((danos, index) => (
                     <div key={index} className="mb-4">
                         <h3 className="font-bold">Vista {danos.vista}</h3>
+
                         <label className="inline-flex items-center mr-4">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`danos-${index}`}
                                 checked={danos.rayones}
-                                onChange={(e) => {
-                                    const updatedDanos = [...danosCarroceria];
-                                    updatedDanos[index] = { ...updatedDanos[index], rayones: e.target.checked };
-                                    setDanosCarroceria(updatedDanos);
-                                }}
+                                onChange={() => handleRadioChange(index, 'rayones')}
                             />
                             Rayones (X)
                         </label>
+
                         <label className="inline-flex items-center mr-4">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`danos-${index}`}
                                 checked={danos.golpes}
-                                onChange={(e) => {
-                                    const updatedDanos = [...danosCarroceria];
-                                    updatedDanos[index] = { ...updatedDanos[index], golpes: e.target.checked };
-                                    setDanosCarroceria(updatedDanos);
-                                }}
+                                onChange={() => handleRadioChange(index, 'golpes')}
                             />
                             Golpe (/)
                         </label>
+
                         <label className="inline-flex items-center mr-4">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`danos-${index}`}
                                 checked={danos.quebrado}
-                                onChange={(e) => {
-                                    const updatedDanos = [...danosCarroceria];
-                                    updatedDanos[index] = { ...updatedDanos[index], quebrado: e.target.checked };
-                                    setDanosCarroceria(updatedDanos);
-                                }}
+                                onChange={() => handleRadioChange(index, 'quebrado')}
                             />
                             Quebrado (O)
                         </label>
+
                         <label className="inline-flex items-center">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`danos-${index}`}
                                 checked={danos.faltante}
-                                onChange={(e) => {
-                                    const updatedDanos = [...danosCarroceria];
-                                    updatedDanos[index] = { ...updatedDanos[index], faltante: e.target.checked };
-                                    setDanosCarroceria(updatedDanos);
-                                }}
+                                onChange={() => handleRadioChange(index, 'faltante')}
                             />
                             Faltante (*)
                         </label>
@@ -101,7 +109,6 @@ const StepDiez: React.FC<StepDiezProps> = ({
                 </button>
             </div>
         </form>
-
     );
 };
 
