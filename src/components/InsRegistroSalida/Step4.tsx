@@ -6,24 +6,23 @@ interface Llantas {
     pe: boolean;
     pa: boolean;
     desgaste: boolean;
-    observacion: string;
 }
 
 interface StepCuatroProps {
     llantasParte2: Llantas[];
     setLlantasParte2: (llantas: Llantas[]) => void;
-    observacionGeneral: string;
-    setObservacionGeneral: (observacion: string) => void;
+    observacionGeneralLlantas: string;
+    setObservacionGeneralLlantas: (observacion: string) => void;
     handlePreviousStep: () => void;
     handleNextStep: () => void;
 }
 
-function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneral, setObservacionGeneral, handlePreviousStep, handleNextStep }: StepCuatroProps) {
+function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas, setObservacionGeneralLlantas, handlePreviousStep, handleNextStep }: StepCuatroProps) {
 
     const handleOptionChange = (index: number, option: 'fp' | 'pe' | 'pa' | 'desgaste') => {
         const updatedLlantas = llantasParte2.map((llanta, i) =>
             i === index
-                ? { id: llanta.id, fp: option === 'fp', pe: option === 'pe', pa: option === 'pa', desgaste: option === 'desgaste', observacion: llanta.observacion }
+                ? { id: llanta.id, fp: option === 'fp', pe: option === 'pe', pa: option === 'pa', desgaste: option === 'desgaste' }
                 : llanta
         );
         setLlantasParte2(updatedLlantas);
@@ -35,14 +34,14 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneral, setOb
             return noOptionSelected;
         });
 
-        const requiresObservation = llantasParte2.some(llanta => llanta.fp || llanta.pe) && !observacionGeneral.trim();
-
         if (isInvalid) {
             alert('Debe seleccionar al menos una opción (FP, PE, PA o desgaste) para cada llanta.');
             return false;
         }
 
-        if (requiresObservation) {
+        const requiresObservation = llantasParte2.some((llanta) => llanta.fp || llanta.pe);
+
+        if (requiresObservation && !observacionGeneralLlantas.trim()) {
             alert('Debe ingresar una observación general si marca FP o PE en alguna llanta.');
             return false;
         }
@@ -100,10 +99,11 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneral, setOb
             <div className="mt-4">
                 <label className="block font-bold mb-2">Observación General:</label>
                 <textarea
-                    value={observacionGeneral}
-                    onChange={(e) => setObservacionGeneral(e.target.value)}
+                    value={observacionGeneralLlantas}
+                    onChange={(e) => setObservacionGeneralLlantas(e.target.value)}
                     className="mt-1 p-2 border rounded w-full"
                     placeholder="Ingrese una observación general si marca FP o PE en alguna llanta"
+                    disabled={!llantasParte2.some((llanta) => llanta.fp || llanta.pe)}
                 />
             </div>
 

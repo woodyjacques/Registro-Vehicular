@@ -1,37 +1,32 @@
 import { useState } from 'react';
 
-function Variables2(){
+function Variables2() {
 
   const [llantasParte1, setLlantasParte1] = useState(
-    Array(5).fill({ id: 0, fp: false, pe: false, pa: false, desgaste: false, observacion: '' }).map((_, index) => ({
+    Array(5).fill({ id: 0, fp: false, pe: false, pa: false, desgaste: false }).map((_, index) => ({
       id: index + 1,
       fp: false,
       pe: false,
       pa: false,
       desgaste: false,
-      observacion: '',
     }))
   );
 
-  const [observacionGeneralParte1, setObservacionGeneralParte1] = useState('');
-
   const [llantasParte2, setLlantasParte2] = useState(
-    Array(5).fill({ id: 0, fp: false, pe: false, pa: false, desgaste: false, observacion: '' }).map((_, index) => ({
+    Array(5).fill({ id: 0, fp: false, pe: false, pa: false, desgaste: false }).map((_, index) => ({
       id: index + 6,
       fp: false,
       pe: false,
       pa: false,
       desgaste: false,
-      observacion: '',
     }))
   );
 
-  const [observacionGeneralParte2, setObservacionGeneralParte2] = useState('');
+  const [observacionGeneralLlantas, setObservacionGeneralLlantas] = useState('');
 
   return {
-    llantasParte1, setLlantasParte1, observacionGeneralParte1, setObservacionGeneralParte1,
-    llantasParte2, setLlantasParte2, observacionGeneralParte2, setObservacionGeneralParte2,
-  };
+    llantasParte1, setLlantasParte1, llantasParte2, setLlantasParte2, observacionGeneralLlantas, setObservacionGeneralLlantas
+  }
 };
 
 export default Variables2;

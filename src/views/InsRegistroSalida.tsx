@@ -27,8 +27,7 @@ function RegistroInspeccionSalida() {
   } = useVariables1();
 
   const {
-    llantasParte1, setLlantasParte1, observacionGeneralParte1, setObservacionGeneralParte1,
-    llantasParte2, setLlantasParte2, observacionGeneralParte2, setObservacionGeneralParte2,
+    llantasParte1, setLlantasParte1,llantasParte2, setLlantasParte2, observacionGeneralLlantas, setObservacionGeneralLlantas,
   } = Variables2();
 
   const {
@@ -63,7 +62,7 @@ function RegistroInspeccionSalida() {
     try {
       await handleSubmit({
         placa, conductor, sucursal, tipoVehiculo, odometroSalida,
-        llantasParte1, llantasParte2, fluidos, parametrosVisuales, luces,
+        llantasParte1, llantasParte2, observacionGeneralLlantas, fluidos, observacionGeneralFluido, parametrosVisuales, luces,
         insumos, documentacion, danosCarroceria
       });
     } catch (error) {
@@ -126,8 +125,6 @@ function RegistroInspeccionSalida() {
           <StepTres
             llantasParte1={llantasParte1}
             setLlantasParte1={setLlantasParte1}
-            observacionGeneral={observacionGeneralParte1}
-            setObservacionGeneral={setObservacionGeneralParte1}
             handlePreviousStep={handlePreviousStep}
             handleNextStep={handleNextStep}
           />
@@ -137,8 +134,8 @@ function RegistroInspeccionSalida() {
           <StepCuatro
             llantasParte2={llantasParte2}
             setLlantasParte2={setLlantasParte2}
-            observacionGeneral={observacionGeneralParte2}
-            setObservacionGeneral={setObservacionGeneralParte2}
+            observacionGeneralLlantas={observacionGeneralLlantas}
+            setObservacionGeneralLlantas={setObservacionGeneralLlantas}
             handlePreviousStep={handlePreviousStep}
             handleNextStep={handleNextStep}
           />

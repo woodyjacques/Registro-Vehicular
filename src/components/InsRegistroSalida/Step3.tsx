@@ -4,24 +4,21 @@ interface Llantas {
     pe: boolean;
     pa: boolean;
     desgaste: boolean;
-    observacion: string;
 }
 
 interface StepTresProps {
     llantasParte1: Llantas[];
     setLlantasParte1: (llantas: Llantas[]) => void;
-    observacionGeneral: string;
-    setObservacionGeneral: (observacion: string) => void;
     handlePreviousStep: () => void;
     handleNextStep: () => void;
 }
 
-function StepTres({ llantasParte1, setLlantasParte1, observacionGeneral, setObservacionGeneral, handlePreviousStep, handleNextStep }: StepTresProps) {
+function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleNextStep }: StepTresProps) {
 
     const handleOptionChange = (index: number, option: 'fp' | 'pe' | 'pa' | 'desgaste') => {
-        const updatedLlantas = llantasParte1.map((llanta, i) => 
+        const updatedLlantas = llantasParte1.map((llanta, i) =>
             i === index
-                ? { id: llanta.id, fp: option === 'fp', pe: option === 'pe', pa: option === 'pa', desgaste: option === 'desgaste', observacion: llanta.observacion }
+                ? { id: llanta.id, fp: option === 'fp', pe: option === 'pe', pa: option === 'pa', desgaste: option === 'desgaste' }
                 : llanta
         );
         setLlantasParte1(updatedLlantas);
@@ -33,15 +30,8 @@ function StepTres({ llantasParte1, setLlantasParte1, observacionGeneral, setObse
             return noOptionSelected;
         });
 
-        const requiresObservation = llantasParte1.some(llanta => llanta.fp || llanta.pe) && !observacionGeneral.trim();
-
         if (isInvalid) {
             alert('Debe seleccionar al menos una opción (FP, PE, PA o desgaste) para cada llanta.');
-            return false;
-        }
-
-        if (requiresObservation) {
-            alert('Debe ingresar una observación general si marca FP o PE en alguna llanta.');
             return false;
         }
 
@@ -93,16 +83,6 @@ function StepTres({ llantasParte1, setLlantasParte1, observacionGeneral, setObse
                         </label>
                     </div>
                 ))}
-            </div>
-
-            <div className="mt-4">
-                <label className="block font-bold mb-2">Observación General:</label>
-                <textarea
-                    value={observacionGeneral}
-                    onChange={(e) => setObservacionGeneral(e.target.value)}
-                    className="mt-1 p-2 border rounded w-full"
-                    placeholder="Ingrese una observación general si marca FP o PE en alguna llanta"
-                />
             </div>
 
             <div className="flex justify-between mt-4">

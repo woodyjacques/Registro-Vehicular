@@ -5,7 +5,6 @@ interface Fluido {
     nombre: string;
     requiere: boolean;
     lleno: boolean;
-    observacion: string;
 }
 
 interface StepCincoProps {
@@ -22,7 +21,7 @@ function StepCinco({ fluidos, setFluidos, observacionGeneral, setObservacionGene
     const handleOptionChange = (index: number, option: 'requiere' | 'lleno') => {
         const updatedFluidos = fluidos.map((fluido, i) =>
             i === index
-                ? { id: fluido.id, nombre: fluido.nombre, requiere: option === 'requiere', lleno: option === 'lleno', observacion: fluido.observacion }
+                ? { id: fluido.id, nombre: fluido.nombre, requiere: option === 'requiere', lleno: option === 'lleno'}
                 : fluido
         );
         setFluidos(updatedFluidos);

@@ -4,10 +4,10 @@ function Variables3(){
 
     const [fluidos, setFluidos] = useState(
         [
-          { id: 1, nombre: 'Niveles de aceite de motor', requiere: false, lleno: false, observacion: '' },
-          { id: 2, nombre: 'Niveles de líquido de freno', requiere: false, lleno: false, observacion: '' },
-          { id: 3, nombre: 'Niveles de líquido de power steering', requiere: false, lleno: false, observacion: '' },
-          { id: 4, nombre: 'Niveles de líquido de radiador (Coolant)', requiere: false, lleno: false, observacion: '' },
+          { id: 1, nombre: 'Niveles de aceite de motor', requiere: false, lleno: false },
+          { id: 2, nombre: 'Niveles de líquido de freno', requiere: false, lleno: false },
+          { id: 3, nombre: 'Niveles de líquido de power steering', requiere: false, lleno: false },
+          { id: 4, nombre: 'Niveles de líquido de radiador (Coolant)', requiere: false, lleno: false },
         ]
       );
     
