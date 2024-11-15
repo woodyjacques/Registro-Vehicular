@@ -1,39 +1,60 @@
-import React, { useState } from 'react';
 
 interface ParametroVisual {
     id: number;
     nombre: string;
     si: boolean;
     no: boolean;
-    observacion: string;
 }
 
 interface StepSeisProps {
     parametrosVisuales: ParametroVisual[];
     setParametrosVisuales: (parametros: ParametroVisual[]) => void;
+    observacionGeneralVisuales: string;
+    setObservacionGeneralVisuales: (observacion: string) => void;
     handlePreviousStep: () => void;
     handleNextStep: () => void;
 }
 
-function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousStep, handleNextStep }: StepSeisProps) {
-    const [observacionGeneral, setObservacionGeneral] = useState('');
+function StepSeis({
+    parametrosVisuales,
+    setParametrosVisuales,
+    observacionGeneralVisuales,
+    setObservacionGeneralVisuales,
+    handlePreviousStep,
+    handleNextStep,
+}: StepSeisProps) {
+
+    const handleOptionChange = (index: number, option: 'si' | 'no') => {
+        const updatedParametros = parametrosVisuales.map((parametro, i) =>
+            i === index
+                ? { ...parametro, si: option === 'si', no: option === 'no' }
+                : parametro
+        );
+        setParametrosVisuales(updatedParametros);
+    };
 
     const validateStep6 = () => {
-        const hasNoOption = parametrosVisuales.some((parametro) => parametro.no);
-        const allOptionsSelected = parametrosVisuales.every((parametro) => parametro.si || parametro.no);
+        const isInvalid = parametrosVisuales.some((parametro) => {
+            const noOptionSelected = !parametro.si && !parametro.no;
+            return noOptionSelected;
+        });
 
-        if (!allOptionsSelected) {
+        const requiresObservation = parametrosVisuales.some(parametro => parametro.no) && !observacionGeneralVisuales.trim();
+
+        if (isInvalid) {
             alert('Debe seleccionar al menos una opción ("SI" o "NO") para cada parámetro.');
             return false;
         }
 
-        if (hasNoOption && !observacionGeneral.trim()) {
-            alert('Debe agregar una observación general si alguno de los parámetros está marcado como "NO".');
+        if (requiresObservation) {
+            alert('Debe ingresar una observación general si marca "NO" en algún parámetro.');
             return false;
         }
 
         return true;
     };
+
+    const requiresObservation = parametrosVisuales.some(parametro => parametro.no);
 
     return (
         <div>
@@ -44,25 +65,19 @@ function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousSte
                         <h3 className="font-bold">{parametro.nombre}</h3>
                         <label className="inline-flex items-center mr-4">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`parametro-${parametro.id}`}
                                 checked={parametro.si}
-                                onChange={(e) => {
-                                    const updatedParametros = [...parametrosVisuales];
-                                    updatedParametros[index] = { ...parametro, si: e.target.checked, no: !e.target.checked };
-                                    setParametrosVisuales(updatedParametros);
-                                }}
+                                onChange={() => handleOptionChange(index, 'si')}
                             />
                             Funciona Correctamente (SI)
                         </label>
                         <label className="inline-flex items-center">
                             <input
-                                type="checkbox"
+                                type="radio"
+                                name={`parametro-${parametro.id}`}
                                 checked={parametro.no}
-                                onChange={(e) => {
-                                    const updatedParametros = [...parametrosVisuales];
-                                    updatedParametros[index] = { ...parametro, no: e.target.checked, si: !e.target.checked };
-                                    setParametrosVisuales(updatedParametros);
-                                }}
+                                onChange={() => handleOptionChange(index, 'no')}
                             />
                             Funciona Correctamente (NO)
                         </label>
@@ -70,19 +85,15 @@ function StepSeis({ parametrosVisuales, setParametrosVisuales, handlePreviousSte
                 ))}
             </div>
 
-            {/* Mostrar Observación General si algún parámetro tiene "NO" seleccionado */}
-            {parametrosVisuales.some((parametro) => parametro.no) && (
+            {requiresObservation && (
                 <div className="mt-4">
-                    <label className="block font-bold">Observación General:</label>
+                    <label className="block font-bold mb-2">Observación General:</label>
                     <textarea
-                        value={observacionGeneral}
-                        onChange={(e) => setObservacionGeneral(e.target.value)}
-                        className={`mt-1 p-2 border rounded w-full ${!observacionGeneral.trim() ? 'border-red-500' : ''}`}
+                        value={observacionGeneralVisuales}
+                        onChange={(e) => setObservacionGeneralVisuales(e.target.value)}
+                        className="mt-1 p-2 border rounded w-full"
                         placeholder="Debe ingresar una observación si algún parámetro está en 'NO'"
                     />
-                    {!observacionGeneral.trim() && (
-                        <p className="text-red-500 mt-1">Es necesario ingresar una observación si marca "NO" en algún parámetro.</p>
-                    )}
                 </div>
             )}
 

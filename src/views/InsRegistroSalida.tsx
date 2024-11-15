@@ -32,7 +32,7 @@ function RegistroInspeccionSalida() {
 
   const {
     fluidos, setFluidos, observacionGeneralFluido, setObservacionGeneralFluido,
-    parametrosVisuales, setParametrosVisuales
+    parametrosVisuales, setParametrosVisuales, observacionGeneralVisuales, setObservacionGeneralVisuales
   } = Variables3();
 
   const {
@@ -62,7 +62,7 @@ function RegistroInspeccionSalida() {
     try {
       await handleSubmit({
         placa, conductor, sucursal, tipoVehiculo, odometroSalida,
-        llantasParte1, llantasParte2, observacionGeneralLlantas, fluidos, observacionGeneralFluido, parametrosVisuales, luces,
+        llantasParte1, llantasParte2, observacionGeneralLlantas, fluidos, observacionGeneralFluido, parametrosVisuales, observacionGeneralVisuales, luces,
         insumos, documentacion, danosCarroceria
       });
     } catch (error) {
@@ -156,6 +156,8 @@ function RegistroInspeccionSalida() {
           <StepSeis
             parametrosVisuales={parametrosVisuales}
             setParametrosVisuales={setParametrosVisuales}
+            observacionGeneralVisuales={observacionGeneralVisuales}
+            setObservacionGeneralVisuales={setObservacionGeneralVisuales}
             handleNextStep={handleNextStep}
             handlePreviousStep={handlePreviousStep}
           />

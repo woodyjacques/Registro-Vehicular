@@ -3,7 +3,7 @@ import { BASE_URL } from './url';
 
 const handleSubmit = async (data: any) => {
   const {  placa, conductor, sucursal, tipoVehiculo, odometroSalida,
-    llantasParte1, llantasParte2, observacionGeneralLlantas,  fluidos, observacionGeneralFluido, parametrosVisuales, luces,
+    llantasParte1, llantasParte2, observacionGeneralLlantas,  fluidos, observacionGeneralFluido, parametrosVisuales, observacionGeneralVisuales,  luces,
     insumos, documentacion, danosCarroceria
   } = data;
 
@@ -32,6 +32,7 @@ const handleSubmit = async (data: any) => {
     formData.append('fluidos', JSON.stringify(fluidos));
     formData.append('observacionGeneralFluido', JSON.stringify(observacionGeneralFluido));
     formData.append('parametrosVisuales', JSON.stringify(parametrosVisuales));
+    formData.append('observacionGeneralVisuales', JSON.stringify(observacionGeneralVisuales));
     formData.append('luces', JSON.stringify(luces));
     formData.append('insumos', JSON.stringify(insumos));
     formData.append('documentacion', JSON.stringify(documentacion));
