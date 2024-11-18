@@ -13,21 +13,22 @@ import Variables2 from '../components/InsRegistroSalida/Variables/Variables2';
 import Variables3 from '../components/InsRegistroSalida/Variables/Variables3';
 import Variables4 from '../components/InsRegistroSalida/Variables/Variables4';
 import Variables5 from '../components/InsRegistroSalida/Variables/Variables5';
-import useVariables1 from '../components/InsRegistroSalida/Variables/Variables1';
-import handleSubmit from '../validation/ValidacionRegSalida';
+import Variables1 from '../components/InsRegistroSalida/Variables/Variables1';
+import handleSubmit from '../validation/InsRegistroSalida';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../validation/url';
+import { useNavigate } from 'react-router-dom';
 
 function RegistroInspeccionSalida() {
 
   const {
     placa, setPlaca, conductor, setConductor, sucursal, setSucursal,
     tipoVehiculo, setTipoVehiculo, odometroSalida, setOdometroSalida, step, setStep, datos, setDatos
-  } = useVariables1();
+  } = Variables1();
 
   const {
-    llantasParte1, setLlantasParte1,llantasParte2, setLlantasParte2, observacionGeneralLlantas, setObservacionGeneralLlantas,
+    llantasParte1, setLlantasParte1, llantasParte2, setLlantasParte2, observacionGeneralLlantas, setObservacionGeneralLlantas,
   } = Variables2();
 
   const {
@@ -54,6 +55,7 @@ function RegistroInspeccionSalida() {
   };
 
   const totalSteps = 10;
+  const navigate = useNavigate();
 
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +67,7 @@ function RegistroInspeccionSalida() {
         llantasParte1, llantasParte2, observacionGeneralLlantas, fluidos, observacionGeneralFluido, parametrosVisuales, observacionGeneralVisuales, luces,
         insumos, documentacion, danosCarroceria
       });
+      navigate('/');
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
       alert('Error al enviar el formulario.');
@@ -74,16 +77,16 @@ function RegistroInspeccionSalida() {
   };
 
   useEffect(() => {
-    const obtenerDatos = async () => {
+    const obtenerPlacas = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/get-data`);
+        const response = await axios.get(`${BASE_URL}/placas/get-data-placas`);
         setDatos(response.data);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
     };
 
-    obtenerDatos();
+    obtenerPlacas();
   }, []);
 
   return (

@@ -1,18 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
-// import Home from "../views/Home";
-// import Inspeccion from '../views/Inspeccion';
-// import Fallas from "../views/Fallas";
-// import Salidas from "../views/Salidas";
+import Home from "../views/Home";
 import RegistroInspeccionSalida from "../views/InsRegistroSalida";
+import RegistroInspeccionEntrada from "../views/InsRegistroEntrada";
 
 
 
 const router = createBrowserRouter([
+  { path: "/", element: <Home /> },
   { path: "/registro-inspeccion-salida", element: <RegistroInspeccionSalida /> },
-  // { path: "/home", element: <Home /> },
-  // { path: "/inspeccion", element: <Inspeccion /> },
-  // { path: "/fallas", element: <Fallas /> },
-  // { path: "/salidas", element: <Salidas/> },
+  { path: "/registro-inspeccion-entrada", element: <RegistroInspeccionEntrada /> },
 ]);
 
 export default router;

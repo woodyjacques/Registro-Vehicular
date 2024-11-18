@@ -39,7 +39,7 @@ const handleSubmit = async (data: any) => {
     formData.append('danosCarroceria', JSON.stringify(danosCarroceria));
 
     try {
-      const response = await axios.post(`${BASE_URL}/register`, formData, {
+      const response = await axios.post(`${BASE_URL}/ins-registro-salida/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
