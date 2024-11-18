@@ -14,14 +14,15 @@ function Home() {
 
   const handleCheckPlaca = async () => {
     const result = await handleSubmit(placa, setError);
-    console.log(result);
 
-    if (result.success = true) {
-      localStorage.setItem("lastPlacaInfo", JSON.stringify(result.data));
+    if (result.data?.rowIndex > 0) {
+      localStorage.setItem("lastPlacaInfo", JSON.stringify(result.data.rowIndex));
       navigate("/registro-inspeccion-entrada");
-    } else {
-      alert(result.message || "La placa no está registrada.");
+    } else if (typeof result.data?.rowIndex === "undefined" || result.data?.rowIndex === null) {
+      alert("Esta placa no esta registrada");
       navigate("/registro-inspeccion-salida");
+    } else {
+      alert("Error: No se pudo determinar el estado de la placa.");
     }
   };
 
@@ -40,9 +41,8 @@ function Home() {
             type="text"
             value={placa}
             onChange={(e) => setPlaca(e.target.value)}
-            className={`mt-1 p-2 border rounded w-full text-sm sm:text-base ${
-              error ? "border-red-500" : "border-gray-300"
-            }`}
+            className={`mt-1 p-2 border rounded w-full text-sm sm:text-base ${error ? "border-red-500" : "border-gray-300"
+              }`}
             placeholder="Ingrese su placa"
             required
           />

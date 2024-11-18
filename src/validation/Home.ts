@@ -16,7 +16,7 @@ export const handleSubmit = async (
             placa,
         });
 
-        if (response.data && response.data.message === "La placa está registrada.") {
+        if (response.data.rowIndex > 0) {
             return {
                 success: true,
                 data: {
