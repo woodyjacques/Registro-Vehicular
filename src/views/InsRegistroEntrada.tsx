@@ -6,13 +6,13 @@ import { handleSubmit } from '../validation/InsRegistroEntrada';
 function RegistroInspeccionEntrada() {
     const [formData, setFormData] = useState<{
         revisiones: Revision[];
-        observacion: string; 
+        observacion: string;
     }>(() => ({
         revisiones: getInitialFormData().revisiones.map((revision) => ({
             ...revision,
-            opcion: null, 
+            opcion: null,
         })),
-        observacion: '', 
+        observacion: '',
     }));
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,10 +20,10 @@ function RegistroInspeccionEntrada() {
 
     const handleInputChange = (index: number, value: boolean) => {
         const newRevisiones = [...formData.revisiones];
-        newRevisiones[index].opcion = value; 
+        newRevisiones[index].opcion = value;
         setFormData({
             ...formData,
-            revisiones: newRevisiones, 
+            revisiones: newRevisiones,
         });
     };
 
@@ -35,9 +35,9 @@ function RegistroInspeccionEntrada() {
             setFormData({
                 revisiones: getInitialFormData().revisiones.map((revision) => ({
                     descripcion: revision.descripcion,
-                    opcion: null, 
+                    opcion: null,
                 })),
-                observacion: '', 
+                observacion: '',
             });
         }
     };

@@ -202,6 +202,11 @@ function RegistroInspeccionSalida() {
             isSubmitting={isSubmitting}
           />
         )}
+        <a href="/falla">
+          <button className="w-full mt-10 bg-green-500 text-white py-2 px-4 rounded">
+            Reportar una falla
+          </button>
+        </a>
       </div>
 
     </div>
