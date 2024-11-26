@@ -27,7 +27,7 @@ function Salidas() {
     useEffect(() => {
         const obtenerDatos = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/get-salidas`);
+                const response = await axios.get(`${BASE_URL}/salidas/get-salidas`);
                 setDatos(response.data);
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
@@ -61,7 +61,7 @@ function Salidas() {
                 alerta: mensajeAlerta,
             };
             try {
-                await axios.post(`${BASE_URL}/registrar-alerta`, data);
+                await axios.post(`${BASE_URL}/salidas/registrar-alerta`, data);
                 alert('Alerta registrada correctamente en el sistema');
                 setLimpiar();
             } catch (error) {
@@ -129,7 +129,7 @@ function Salidas() {
                     <button
                         type="button"
                         className="bg-red-500 text-white px-4 py-2 rounded w-full"
-                        onClick={setLimpiar} 
+                        onClick={setLimpiar}
                     >
                         Cancelar
                     </button>
