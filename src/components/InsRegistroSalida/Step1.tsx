@@ -14,20 +14,29 @@ function StepUno({ sucursal, setSucursal, onNext }: Step1Props) {
         return true;
     };
 
+
+
+
+
+
+
+
+
+
     return (
         <div>
             <div className="mb-4">
                 <label className="block mb-2 font-bold">A qué sucursal pertenece:</label>
                 <div className="flex flex-col space-y-2">
                     {[
-                        "Casa Matriz Mañanitas",
-                        "Chiriquí",
-                        "Chorrera",
-                        "Chorrera Planta",
-                        "Colón",
-                        "Juan Díaz",
-                        "Aguadulce",
-                        "Los Santos"
+                        "(SU01) Casa Matriz Mañanitas",
+                        "(SU02) Chiriquí",
+                        "(SU03) Chorrera",
+                        "(SU04) Chorrera Planta",
+                        "(SU05) Colón",
+                        "(SU06) Juan Díaz",
+                        "(SU07) Aguadulce",
+                        "(SU08) Los Santos"
                     ].map((nombre, index) => (
                         <label key={index} className="inline-flex items-center">
                             <input
@@ -38,7 +47,7 @@ function StepUno({ sucursal, setSucursal, onNext }: Step1Props) {
                                 className="mr-2"
                                 required
                             />
-                            (SU0{index + 1}) {nombre}
+                            {nombre}
                         </label>
                     ))}
                 </div>
@@ -62,3 +71,5 @@ function StepUno({ sucursal, setSucursal, onNext }: Step1Props) {
 
 export default StepUno;
 
+
+// Tengo este archivo de excel que aparece en la imagen, lo hice con el objetivo de almacenar numeros consecutivos 0,1, 2, 3 de forma independiento de la sucursal, entonces en esta funcion quiero que almacenes esos numeros consecutivos depediendo la sucursar recuerda que debe empesar desde cero y antes de ingresar por favor verifique si existe ese numero consecutivo de esta sucursal espesifico 

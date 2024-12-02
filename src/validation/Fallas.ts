@@ -4,6 +4,7 @@ import { BASE_URL } from "./url";
 
 export const handleSubmitFallas = async (
     event: FormEvent,
+    sucursal: string,
     fecha: string,
     conductor: string,
     vehiculo: string,
@@ -11,6 +12,11 @@ export const handleSubmitFallas = async (
     detalles: string
 ): Promise<boolean> => {
     event.preventDefault();
+
+    if (sucursal === "") {
+        alert("Ingrese la sucursal");
+        return false;
+    }
 
     if (fecha === "") {
         alert("Ingrese la fecha");
@@ -38,7 +44,7 @@ export const handleSubmitFallas = async (
     }
 
     try {
-        const response = await axios.post(`${BASE_URL}/registro-falla/register`, { fecha, conductor, vehiculo, placa, detalles });
+        const response = await axios.post(`${BASE_URL}/registro-falla/register`, { sucursal, fecha, conductor, vehiculo, placa, detalles });
         alert(response.data.message);
         return true;
     } catch (error: any) {

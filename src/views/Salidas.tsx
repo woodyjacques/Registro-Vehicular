@@ -74,7 +74,7 @@ function Salidas() {
     };
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <h1 className="text-2xl font-bold mb-4">R04-PT-19 REVISIÓN DE VEHÍCULOS</h1>
+            <h1 className="text-2xl font-bold mb-4">R06-PT-19 REVISIÓN DE VEHÍCULOS</h1>
             <form className="w-full max-w-md bg-white p-6 rounded shadow-md">
                 {alerta && <div className="bg-red-200 text-red-800 p-2 rounded mb-4">{alerta}</div>}
                 <label className="block mb-4">

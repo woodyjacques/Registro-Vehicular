@@ -4,6 +4,7 @@ import { handleSubmitFallas } from "../validation/Fallas";
 
 function Falla() {
 
+    const [sucursal, setSucursal] = useState("");
     const [fecha, setFecha] = useState("");
     const [conductor, setConductor] = useState("");
     const [vehiculo, setVehiculo] = useState("");
@@ -17,12 +18,12 @@ function Falla() {
         event.preventDefault();
         setIsSubmitting(true);
 
-        const Successful = await handleSubmitFallas(event, fecha, conductor, vehiculo, placa, detalles);
+        const Successful = await handleSubmitFallas(event, sucursal, fecha, conductor, vehiculo, placa, detalles);
 
         if (Successful) {
             setTimeout(() => {
                 navigate("/");
-            }, 3000);
+            }, 1000);
         }
 
         setIsSubmitting(false);
@@ -30,12 +31,31 @@ function Falla() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-            <h1 className="text-2xl font-bold mb-4 text-center">R04-PT-19 REVISIÓN DE VEHÍCULOS</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center">R07-PT-19 REVISIÓN DE VEHÍCULOS</h1>
             <form
                 onSubmit={handleSubmitFalla}
                 className="w-full max-w-3xl bg-white p-6 rounded shadow-md space-y-4"
             >
                 <div className="flex flex-col md:flex-row justify-between md:space-x-4 space-y-4 md:space-y-0">
+                    <div className="w-full md:w-1/2">
+                        <label className="block text-gray-700">Sucursal:</label>
+                        <select
+                            value={sucursal}
+                            onChange={(e) => setSucursal(e.target.value)}
+                            name="fecha"
+                            className="w-full mt-1 p-2 border border-gray-300 rounded"
+                        >
+                            <option value="">Seleccione una Sucursal</option>
+                            <option value="(SU01) Casa Matriz Mañanitas">Casa Matriz Mañanitas</option>
+                            <option value="(SU02) Chiriquí">Chiriquí</option>
+                            <option value="(SU03) Chorrera">Chorrera</option>
+                            <option value="(SU04) Chorrera Planta">Chorrera Planta</option>
+                            <option value="(SU05) Colón">Colón</option>
+                            <option value="(SU06) Juan Díaz">Juan Díaz</option>
+                            <option value="(SU07) Aguadulce">Aguadulce</option>
+                            <option value="(SU08) Los Santos">Los Santos</option>
+                        </select>
+                    </div>
                     <div className="w-full md:w-1/2">
                         <label className="block text-gray-700">Fecha:</label>
                         <input
