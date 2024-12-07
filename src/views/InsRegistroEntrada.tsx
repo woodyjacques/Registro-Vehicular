@@ -60,13 +60,14 @@ function RegistroInspeccionEntrada() {
                             <label className="block text-gray-700 font-semibold mb-2">
                                 {item.descripcion}
                             </label>
-                            <div className="flex items-center space-x-4">
+                            <div className="flex space-x-4">
                                 <label className="flex items-center">
                                     <input
                                         type="radio"
                                         name={`respuesta-${index}`}
                                         checked={item.opcion === true}
                                         onChange={() => handleInputChange(index, true)}
+                                        className="form-radio h-5 w-5"
                                     />
                                     <span className="ml-2">Sí</span>
                                 </label>
@@ -76,13 +77,14 @@ function RegistroInspeccionEntrada() {
                                         name={`respuesta-${index}`}
                                         checked={item.opcion === false}
                                         onChange={() => handleInputChange(index, false)}
+                                        className="form-radio h-5 w-5"
                                     />
                                     <span className="ml-2">No</span>
                                 </label>
                             </div>
                         </div>
                     ))}
-                    <div className="col-span-2">
+                    <div className="md:col-span-2">
                         <label className="block text-gray-700 font-semibold mb-2">
                             Observación General
                         </label>
@@ -99,18 +101,18 @@ function RegistroInspeccionEntrada() {
                         ></textarea>
                     </div>
                 </div>
-                <div className="mt-4 flex justify-between">
+                <div className="mt-4 flex flex-col md:flex-row md:justify-between md:space-x-4">
                     <button
                         type="button"
                         onClick={handleCancel}
-                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300"
+                        className="w-full md:w-auto bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300"
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300"
+                        className="w-full md:w-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300 mt-2 md:mt-0"
                     >
                         {isSubmitting ? 'Guardando...' : 'Guardar'}
                     </button>
@@ -118,6 +120,7 @@ function RegistroInspeccionEntrada() {
             </form>
         </div>
     );
+
 }
 
 export default RegistroInspeccionEntrada;
