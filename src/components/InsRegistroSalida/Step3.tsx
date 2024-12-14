@@ -14,13 +14,22 @@ interface StepTresProps {
 }
 
 function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleNextStep }: StepTresProps) {
-
     const handleOptionChange = (index: number, option: 'fp' | 'pe' | 'pa' | 'desgaste') => {
-        const updatedLlantas = llantasParte1.map((llanta, i) =>
-            i === index
-                ? { id: llanta.id, fp: option === 'fp', pe: option === 'pe', pa: option === 'pa', desgaste: option === 'desgaste' }
-                : llanta
-        );
+        const updatedLlantas = llantasParte1.map((llanta, i) => {
+            if (i === index) {
+                if (option === 'desgaste') {
+                    return { ...llanta, desgaste: !llanta.desgaste }; // Alternar "desgaste"
+                } else {
+                    return {
+                        ...llanta,
+                        fp: option === 'fp',
+                        pe: option === 'pe',
+                        pa: option === 'pa',
+                    };
+                }
+            }
+            return llanta;
+        });
         setLlantasParte1(updatedLlantas);
     };
 
@@ -48,7 +57,7 @@ function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleN
                         <label className="inline-flex items-center mr-4">
                             <input
                                 type="radio"
-                                name={`llanta-${llanta.id}`}
+                                name={`llanta-${llanta.id}-opcion`}
                                 checked={llanta.fp}
                                 onChange={() => handleOptionChange(index, 'fp')}
                             />
@@ -57,7 +66,7 @@ function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleN
                         <label className="inline-flex items-center mr-4">
                             <input
                                 type="radio"
-                                name={`llanta-${llanta.id}`}
+                                name={`llanta-${llanta.id}-opcion`}
                                 checked={llanta.pe}
                                 onChange={() => handleOptionChange(index, 'pe')}
                             />
@@ -66,7 +75,7 @@ function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleN
                         <label className="inline-flex items-center mr-4">
                             <input
                                 type="radio"
-                                name={`llanta-${llanta.id}`}
+                                name={`llanta-${llanta.id}-opcion`}
                                 checked={llanta.pa}
                                 onChange={() => handleOptionChange(index, 'pa')}
                             />
@@ -74,8 +83,8 @@ function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleN
                         </label>
                         <label className="inline-flex items-center">
                             <input
-                                type="radio"
-                                name={`llanta-${llanta.id}`}
+                                type="checkbox"
+                                name={`llanta-${llanta.id}-desgaste`}
                                 checked={llanta.desgaste}
                                 onChange={() => handleOptionChange(index, 'desgaste')}
                             />
@@ -110,3 +119,4 @@ function StepTres({ llantasParte1, setLlantasParte1, handlePreviousStep, handleN
 }
 
 export default StepTres;
+

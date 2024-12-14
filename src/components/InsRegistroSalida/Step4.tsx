@@ -18,17 +18,29 @@ interface StepCuatroProps {
 }
 
 function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas, setObservacionGeneralLlantas, handlePreviousStep, handleNextStep }: StepCuatroProps) {
-
     const handleOptionChange = (index: number, option: 'fp' | 'pe' | 'pa' | 'desgaste') => {
-        const updatedLlantas = llantasParte2.map((llanta, i) =>
-            i === index
-                ? { id: llanta.id, fp: option === 'fp', pe: option === 'pe', pa: option === 'pa', desgaste: option === 'desgaste' }
-                : llanta
-        );
+        const updatedLlantas = llantasParte2.map((llanta, i) => {
+            if (i === index) {
+                if (option === 'desgaste') {
+                    // Alternar "desgaste" independientemente
+                    return { ...llanta, desgaste: !llanta.desgaste };
+                } else {
+                    // Cambiar solo la opción seleccionada (fp, pe, pa) sin afectar "desgaste"
+                    return {
+                        ...llanta,
+                        fp: option === 'fp',
+                        pe: option === 'pe',
+                        pa: option === 'pa',
+                    };
+                }
+            }
+            return llanta;
+        });
         setLlantasParte2(updatedLlantas);
     };
 
     const validateStep4 = () => {
+        // Validar que cada llanta tenga al menos una selección
         const isInvalid = llantasParte2.some((llanta) => {
             const noOptionSelected = !llanta.fp && !llanta.pe && !llanta.pa && !llanta.desgaste;
             return noOptionSelected;
@@ -39,6 +51,7 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas
             return false;
         }
 
+        // Validar que si FP o PE están marcados, se ingrese una observación
         const requiresObservation = llantasParte2.some((llanta) => llanta.fp || llanta.pe);
 
         if (requiresObservation && !observacionGeneralLlantas.trim()) {
@@ -59,7 +72,7 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas
                         <label className="inline-flex items-center mr-4">
                             <input
                                 type="radio"
-                                name={`llanta-${llanta.id}`}
+                                name={`llanta-${llanta.id}-opcion`}
                                 checked={llanta.fp}
                                 onChange={() => handleOptionChange(index, 'fp')}
                             />
@@ -68,7 +81,7 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas
                         <label className="inline-flex items-center mr-4">
                             <input
                                 type="radio"
-                                name={`llanta-${llanta.id}`}
+                                name={`llanta-${llanta.id}-opcion`}
                                 checked={llanta.pe}
                                 onChange={() => handleOptionChange(index, 'pe')}
                             />
@@ -77,7 +90,7 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas
                         <label className="inline-flex items-center mr-4">
                             <input
                                 type="radio"
-                                name={`llanta-${llanta.id}`}
+                                name={`llanta-${llanta.id}-opcion`}
                                 checked={llanta.pa}
                                 onChange={() => handleOptionChange(index, 'pa')}
                             />
@@ -85,8 +98,8 @@ function StepCuatro({ llantasParte2, setLlantasParte2, observacionGeneralLlantas
                         </label>
                         <label className="inline-flex items-center">
                             <input
-                                type="radio"
-                                name={`llanta-${llanta.id}`}
+                                type="checkbox"
+                                name={`llanta-${llanta.id}-desgaste`}
                                 checked={llanta.desgaste}
                                 onChange={() => handleOptionChange(index, 'desgaste')}
                             />
