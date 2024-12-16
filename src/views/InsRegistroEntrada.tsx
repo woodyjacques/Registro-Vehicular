@@ -4,15 +4,18 @@ import { getInitialFormData, Revision } from '../components/InsRegistroEntrada/V
 import { handleSubmit } from '../validation/InsRegistroEntrada';
 
 function RegistroInspeccionEntrada() {
+
     const [formData, setFormData] = useState<{
         revisiones: Revision[];
         observacion: string;
+        odometro: string;
     }>(() => ({
         revisiones: getInitialFormData().revisiones.map((revision) => ({
             ...revision,
             opcion: null,
         })),
         observacion: '',
+        odometro: '',
     }));
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,8 +41,10 @@ function RegistroInspeccionEntrada() {
                     opcion: null,
                 })),
                 observacion: '',
+                odometro:"",
             });
         }
+        navigate("/");
     };
 
     return (
@@ -55,6 +60,22 @@ function RegistroInspeccionEntrada() {
                 }
             >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="md:col-span-2">
+                        <label className="block text-gray-700 font-semibold mb-2">
+                            Odómetro de entrada
+                        </label>
+                        <input
+                            type="text"
+                            name="odometro"
+                            id="odometro"
+                            value={formData.odometro}
+                            onChange={(e) =>
+                                setFormData({ ...formData, odometro: e.target.value })
+                            }
+                            className="w-full p-2 border rounded mt-1"
+                            placeholder="Odómetro de entrada"
+                        />
+                    </div>
                     {formData.revisiones.map((item, index) => (
                         <div key={index} className="p-4 bg-gray-50 border rounded">
                             <label className="block text-gray-700 font-semibold mb-2">

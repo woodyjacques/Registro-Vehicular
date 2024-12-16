@@ -4,9 +4,9 @@ import { BASE_URL } from './url';
 
 export const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
-    formData: { revisiones: Revision[]; observacion: string },
+    formData: { revisiones: Revision[]; observacion: string; odometro: string; },
     setIsSubmitting: React.Dispatch<React.SetStateAction<boolean>>,
-    setFormData: React.Dispatch<React.SetStateAction<{ revisiones: Revision[]; observacion: string }>>,
+    setFormData: React.Dispatch<React.SetStateAction<{ revisiones: Revision[]; observacion: string; odometro: string; }>>,
     navigate: (path: string) => void
 ) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ export const handleSubmit = async (
         })),
         observacion: formData.observacion,
         lastPlacaInfo,
+        odometro:formData.odometro,
     };
 
     try {
@@ -56,6 +57,7 @@ export const handleSubmit = async (
                     opcion: null,
                 })),
                 observacion: '',
+                odometro: "",
             });
 
             navigate('/');
